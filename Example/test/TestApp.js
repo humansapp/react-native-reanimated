@@ -23,6 +23,7 @@ import WithNavigation from './WithNavigation';
 import WithNavigationNested from './WithNavigationNested';
 import TestRemovalOrder from './TestRemovalOrder';
 import LayoutAnimationsRemovalTest from './LayoutAnimationsRemovalTest';
+import WithParserTest from './WithParserTest';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -34,6 +35,10 @@ const SCREENS = {
   TestRemovalOrder: {
     screen: TestRemovalOrder,
     title: 'test removal Order',
+  },
+  Parser: {
+    screen: WithParserTest,
+    title: 'parser',
   },
   SimpleTest: {
     screen: SimpleTest,
@@ -113,7 +118,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <View collapsable={false} style={{flex:1}}>
+      <View collapsable={false} style={{ flex: 1 }}>
         <Stack.Navigator detachInactiveScreens={false}>
           <Stack.Screen
             name="Home"

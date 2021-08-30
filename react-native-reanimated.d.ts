@@ -466,6 +466,8 @@ declare module 'react-native-reanimated' {
     ): BackwardCompatibleWrapper;
 
     // reanimated2 animations
+    export type PrimitiveValue = number | string;
+
     export interface WithTimingConfig {
       duration?: number;
       easing?: EasingFunction;
@@ -488,6 +490,10 @@ declare module 'react-native-reanimated' {
     export function withDelay(
       delayMS: number,
       delayedAnimation: number
+    ): number;
+    export function withParser(
+      parserFn: (value: number) => PrimitiveValue,
+      innerAnimation: number
     ): number;
     export function withRepeat(
       animation: number,
@@ -567,11 +573,11 @@ declare module 'react-native-reanimated' {
       handler: (e: T) => void,
       eventNames?: string[],
       rebuild?: boolean
-    ): (e: NativeSyntheticEvent<T>) => void
+    ): (e: NativeSyntheticEvent<T>) => void;
     export function useHandler<T, TContext extends Context = {}>(
       handlers: Record<string, Handler<T, TContext>>,
-      deps?: DependencyList,
-    ): { context: TContext, doDependenciesDiffer: boolean, useWeb: boolean };
+      deps?: DependencyList
+    ): { context: TContext; doDependenciesDiffer: boolean; useWeb: boolean };
     export function useAnimatedGestureHandler<
       T extends GestureHandlerGestureEvent = PanGestureHandlerGestureEvent,
       TContext extends Context = {}
@@ -988,6 +994,7 @@ declare module 'react-native-reanimated' {
   export const measure: typeof Animated.measure;
   export const scrollTo: typeof Animated.scrollTo;
   export const withTiming: typeof Animated.withTiming;
+  export const withParser: typeof Animated.withParser;
   export const withSpring: typeof Animated.withSpring;
   export const withDecay: typeof Animated.withDecay;
   export const cancelAnimation: typeof Animated.cancelAnimation;

@@ -14,19 +14,19 @@ export interface ParserAnimation
 }
 
 export function withParser(
-  beforeFn: (value: PrimitiveValue) => number,
-  afterFn: (value: number) => PrimitiveValue,
+  parserFn: (value: number) => PrimitiveValue,
   nextAnimation: NextAnimation<ParserAnimation>
 ): Animation<ParserAnimation> {
   'worklet';
   const innerAnimation =
     typeof nextAnimation === 'function' ? nextAnimation() : nextAnimation;
+
   return defineAnimation<ParserAnimation>(
     innerAnimation,
     () => {
       function parser(animation: ParserAnimation, now: Timestamp): boolean {
         const finished = innerAnimation.onFrame(innerAnimation, now);
-        animation.current = afterFn(innerAnimation.current as number);
+        animation.current = parserFn(innerAnimation.current as number);
         return finished;
       }
 
@@ -37,12 +37,7 @@ export function withParser(
         previousAnimation: ParserAnimation
       ): void {
         animation.current = value;
-        innerAnimation.onStart(
-          innerAnimation,
-          beforeFn(value),
-          now,
-          previousAnimation
-        );
+        innerAnimation.onStart(innerAnimation, value, now, previousAnimation);
       }
 
       const callback = (finished?: boolean): void => {
@@ -52,10 +47,10 @@ export function withParser(
       };
 
       return {
-        isHigherOrder: true,
+        isHigherOrder: false,
         onFrame: parser,
         onStart,
-        current: innerAnimation.current,
+        current: parserFn(innerAnimation.current as number),
         callback,
       };
     },

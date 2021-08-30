@@ -182,7 +182,7 @@ export function isAnimated(prop: NestedObjectValues<AnimationObject>): boolean {
       }
     } else if (currentProp?.onFrame !== undefined) {
       return true;
-    } else if (typeof prop === 'object') {
+    } else if (typeof currentProp === 'object') {
       for (const item of Object.values(currentProp)) {
         propsToCheck.push(item);
       }

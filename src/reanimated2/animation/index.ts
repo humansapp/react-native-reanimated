@@ -14,3 +14,4 @@ export { withDelay } from './delay';
 export { withRepeat } from './repeat';
 export { withSequence } from './sequence';
 export { withStyleAnimation } from './styleAnimation';
+export { withParser } from './parser';
